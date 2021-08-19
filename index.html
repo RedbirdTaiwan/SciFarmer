@@ -13,15 +13,15 @@
   </head>
   <body style="background-color: #B7ACA4;">
     <nav class="sticky-top">
-        <img src="images/frontpage-banner.png" class="img-fluid" alt="Header image">
+        <img src="images/frontpage-banner.png" class="banner" alt="Header image">
     </nav>
     <div class="container-lg position-relative px-5">
         <div class="row">
             <div class="col-12">
                 <img src="images/news.png" class="img my-2" alt="news">
-                <img src="https://inaturalist-open-data.s3.amazonaws.com/photos/138936064/large.jpeg?1624699512" class="newobservation" alt="new observation">
+                <img id="image" src="" class="newobservation" alt="new observation">
                 <div class="container-fluid px-0 py-1">
-                <i class="bi bi-plus-lg"></i> <i class="bi bi-plus-lg"></i> linfy66的新蒐集, 物種:非洲大蝸牛, 地點:農田裡的科學基地, 時間:2021/06/26, 收藏:<a href="https://www.inaturalist.org/observations/84524898" target="_blank">iNaturalist</a>
+                <i class="bi bi-plus-lg"></i> <i class="bi bi-plus-lg"></i> <span id="user"></span> 的新蒐集, 物種:<span id="common_name"></span>, 地點:<span id="farmland"></span>, 時間:<span id="date"></span>, 收藏:<a id="source" href="" target="_blank">iNaturalist</a>
                 </div>
             </div>
             <div class="col-6 text-center">
@@ -36,10 +36,29 @@
             </div>
         </div>
     </div>
+    <div class="py-5"></div><div class="py-2"></div>
     <nav class="fixed-bottom">
-        <img src="images/frontpage-footer.png" class="img-fluid" alt="Footer image">
+        <img src="images/frontpage-footer.png" class="footer" alt="Footer image">
         <div class="copyright">© 農夫x科學家 2021</div>
     </nav>
   </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+  <script src="sci-farmer.js" ></script>
+  <script>
+  $(document).ready(function(){
+    var project_id = farms['iNat']['農田裏的科學計畫']['project_id'];
+    var per_page = 1;
+    var url = 'https://api.inaturalist.org/v1/observations?project_id=' + project_id + '&order=desc&order_by=created_at&per_page=' + per_page + '&locale=zh-TW&preferred_place_id=7887';
+    $.getJSON(url, function(data) {
+        var total_results = data['total_results'];
+        $('#farmland').html('農田裏的科學計畫');
+        $('#user').html(data.results[0]['user']['login']);
+        $('#common_name').html(data.results[0]['taxon']['preferred_common_name']);
+        $('#date').html(data.results[0]['observed_on']);
+        $('#source').attr('href', 'https://www.inaturalist.org/observations/'+data.results[0]['id']);
+        $('#image').attr('src', data.results[0]['observation_photos'][0]['photo']['url'].replace('square', 'large'));
+    });
+});
+  </script>
 </html>

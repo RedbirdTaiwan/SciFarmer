@@ -1,3 +1,17 @@
+.banner {
+    display: block;
+    height: 115px;
+    max-width: 100%;
+    object-fit: cover;
+}
+
+.footer {
+    display: block;
+    height: 88px;
+    max-width: 100%;
+    object-fit: cover;
+}
+
 .newobservation {
     display: block;
     margin-left: auto;
@@ -15,7 +29,7 @@
 
 .copyright {
     position: absolute;
-    top: 90%;
+    top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 18px;
@@ -37,4 +51,12 @@
 a {
     font-weight: bold;
     color: black;
+}
+
+.samplepicture {
+    border-radius: 10px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4/3;
+    object-fit: cover;
 }
