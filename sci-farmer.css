@@ -60,3 +60,10 @@ a {
     aspect-ratio: 4/3;
     object-fit: cover;
 }
+
+.squareimag {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}

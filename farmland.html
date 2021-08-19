@@ -61,7 +61,6 @@
         var photos = '';
         var total_results = data['total_results'];
         $('#source').url = 'https://www.inaturalist.org/observations/'+data.results[0]['id'];
-        $('#image').attr('src', data.results[0]['observation_photos'][0]['photo']['url'].replace('square', 'large'));
         $.each(data.results, function(index, item) {
             var common_name = item['taxon']['preferred_common_name'];
             var sci_name = item['taxon']['name'];
@@ -73,7 +72,7 @@
                     var photourl = photo['photo']['url'].replace('square', 'medium');
                     var license_code = photo['photo']['license_code'];
                     var photoattribution = '©'+user+' ('+license_code+')';
-                    photos += '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" style="width: 100%"><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a> '+date+'<br>'+photoattribution+'<br>@<a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">iNaturalist</a></div></div></div>';
+                    photos += '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a> '+date+'<br>'+photoattribution+'<br>@<a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">iNaturalist</a></div></div></div>';
                 });
             }
         });
