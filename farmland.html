@@ -60,7 +60,6 @@
     $.getJSON(url, function(data) {
         var photos = '';
         var total_results = data['total_results'];
-        $('#source').url = 'https://www.inaturalist.org/observations/'+data.results[0]['id'];
         $.each(data.results, function(index, item) {
             var common_name = item['taxon']['preferred_common_name'];
             var sci_name = item['taxon']['name'];
