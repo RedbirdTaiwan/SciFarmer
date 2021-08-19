@@ -97,13 +97,13 @@
   <script src="sci-farmer.js" ></script>
   <script>
     var scientific_name = window.location.search.substring(1).replace('s=', '');
-    var url = 'http://api.taicol.tw/v1/?speciesname=' + scientific_name;
+    var url = 'https://www.tbn.org.tw/api/v2/species?name=' + scientific_name;
     $.getJSON(url, function(data) {
-        var name_code = data[1]['accepted_name_code'];
+        var name_code = data['data'][0]['taicolNameCode'];
         console.log(name_code);
         var taieolurl = 'https://data.taieol.tw/eol/endpoint/taxondesc/species/' + name_code;
         $.getJSON(url, function(eol) {
-            //
+            console.log(eol);
         });
     });
   </script>
