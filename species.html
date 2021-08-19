@@ -92,5 +92,19 @@
         <div class="copyright">© 農夫x科學家 2021</div>
     </nav>
   </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+  <script src="sci-farmer.js" ></script>
+  <script>
+    var scientific_name = window.location.search.substring(1).replace('s=', '');
+    var url = 'http://api.taicol.tw/v1/?speciesname=' + scientific_name;
+    $.getJSON(url, function(data) {
+        var name_code = data[1]['accepted_name_code'];
+        console.log(name_code);
+        var taieolurl = 'https://data.taieol.tw/eol/endpoint/taxondesc/species/' + name_code;
+        $.getJSON(url, function(eol) {
+            //
+        });
+    });
+  </script>
 </html>

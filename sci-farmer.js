@@ -7,3 +7,12 @@ const farms = {
         }
     }
 }
+
+const farmers = {
+    iNat: {
+        農田裏的科學計畫: {
+            user_id: '737771',
+            fb: 'https://www.facebook.com/fangyee.lin',
+        }
+    }
+}

@@ -61,8 +61,17 @@
         var photos = '';
         var total_results = data['total_results'];
         $.each(data.results, function(index, item) {
-            var common_name = item['taxon']['preferred_common_name'];
-            var sci_name = item['taxon']['name'];
+            if( item['taxon'] != null){
+                if( item['taxon']['preferred_common_name'] != undefined){
+                    var common_name = item['taxon']['preferred_common_name'];
+                }else{
+                    var common_name = '未知';
+                }
+                var sci_name = item['taxon']['name'];
+            }else{
+                var common_name = '未知';
+                var sci_name = '';
+            }
             var date = item['observed_on'];
             var observationid = item['id'];
             var user = item['user']['login'];
