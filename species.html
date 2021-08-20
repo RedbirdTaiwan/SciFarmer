@@ -75,14 +75,16 @@
         $('#name').html(scientific_name);
         var taieolurl = 'https://gapfiller.tbn.org.tw/api/taieol/' + accepted_name_code;
         $.getJSON(taieolurl, function(taieol) {
-            var author = '作者：'+taieol['author'];
-            $('#author').html(author);
-            var description = taieol['description'];
-            $('#description').html(description);
-            var distribution = taieol['distribution'];
-            $('#distribution').html(distribution);
-            var permalink = taieol['permalink'];
-            $('#permalink').html('資料來源：<a href="'+permalink+'" target="_blank">臺灣生命大百科</a>');
+            if(taieol.length>0){
+                var author = '作者：'+taieol['author'];
+                $('#author').html(author);
+                var description = taieol['description'];
+                $('#description').html(description);
+                var distribution = taieol['distribution'];
+                $('#distribution').html(distribution);
+                var permalink = taieol['permalink'];
+                $('#permalink').html('資料來源：<a href="'+permalink+'" target="_blank">臺灣生命大百科</a>');
+            }
         });
     }).fail(function() { $('#common_name').html('未知'); });
     var per_page = 10;
