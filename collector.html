@@ -28,10 +28,10 @@
                     <div class="h4" id="project"></div>
                 </div>
                 <div class="my-1">
-                    等級: Level 3
+                    等級: Level <span id="level"></span>
                 </div>
                 <div class="my-1">
-                    蒐集物種數量: 132
+                    蒐集物種數量: <span id="speciescount"></span>
                 </div>
                 <div class="my-1">
                     Link: <a id="fb" href="" target="_blank"><i class="bi bi-facebook" style="color:blue;"></i></a>
@@ -86,6 +86,22 @@
             }
         });
         $('#gallery').html(photos);
+    });
+    var taxa_url = 'https://api.inaturalist.org/v1/observations/species_counts?user_id=' + user_id + '&order=desc&order_by=created_at&per_page=1&locale=zh-TW&preferred_place_id=7887';
+    $.getJSON(taxa_url, function(data) {
+        var total_results = data['total_results'];
+        $('#speciescount').html(total_results);
+        if(total_results>500){
+            $('#level').html(5);
+        }else if(total_results>250){
+            $('#level').html(4);
+        }else if(total_results>100){
+            $('#level').html(3);
+        }else if(total_results>50){
+            $('#level').html(2);
+        }else{
+            $('#level').html(1);
+        }
     });
 });
   </script>

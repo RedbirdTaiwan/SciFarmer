@@ -31,7 +31,10 @@
                     <img src="images/farmland03.png" class="float" style="height:24px"><span id="type"></span>
                 </div>
                 <div class="my-1">
-                    <img src="images/farmland04.png" class="float" style="height:24px">耕作者: 農田裏的科學計畫
+                    <img src="images/farmland04.png" class="float" style="height:24px">耕作者: <span id="project"></span>
+                </div>
+                <div class="my-1">
+                    <img src="images/farmland04.png" class="float" style="height:24px">累計物種: <span id="speciescount"></span>
                 </div>
             </div>
         </div>
@@ -52,6 +55,7 @@
   <script>
   $(document).ready(function(){
     var project = '農田裏的科學計畫';
+    $('#project').html(project);
     var project_id = farms['iNat'][project]['project_id'];
     $('#location').html(farms['iNat'][project]['location']);
     $('#type').html(farms['iNat'][project]['type']);
@@ -85,6 +89,11 @@
             }
         });
         $('#gallery').html(photos);
+    });
+    var taxa_url = 'https://api.inaturalist.org/v1/observations/species_counts?project_id=' + project_id + '&order=desc&order_by=created_at&per_page=1&locale=zh-TW&preferred_place_id=7887';
+    $.getJSON(taxa_url, function(data) {
+        var total_results = data['total_results'];
+        $('#speciescount').html(total_results);
     });
 });
   </script>
