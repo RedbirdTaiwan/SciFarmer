@@ -30,60 +30,17 @@
                 </div>
             </div>
             <div class="col-6 bg-white pt-2">
-                <div class="h4 fw-bold">非洲大蝸牛</div>
-                <div><i>Achatina fulica</i></div>
-                <div>資料來源：<a href="http://eol.taibif.tw/taieol/316551" target="_blank">臺灣生命大百科</a></div>
-                <div>分佈圖：<a href="https://www.tbn.org.tw/taxa/b17d3ca2-aa9f-4342-a092-dd2e1965c3a9" target="_blank">台灣生物多樣性網絡</a></div>
+                <div class="h4 fw-bold" id="common_name"></div>
+                <div><i id="name"></i></div>
+                <div id="author"></div>
+                <div>資料來源：<a id="permalink" href="" target="_blank">臺灣生命大百科</a></div>
             </div>
             <div class="col-12 bg-white">
-                <div>
-                    <ul>描述
-                        <li>殼形 : 中大紡錘形
-                        <li>殼寬 : 約4.6-5mm
-                        <li>殼高 : 約10-15mm
-                        <li>螺層數 : 約8-9層
-                        <li>殼中大型、右旋，是臺灣目前體型最大的蝸牛之一，螺塔高，但縫合線不明顯。殼黃褐色，具有不規則的赤褐色條紋，殼頂第1～3層常為乳白色，第4～6層為淡黃色，夾雜赤褐色或淡紫色斑紋，第7~9層為暗紅色，內有淡紫色或黃白色之粗紋。肉體為黑褐色混有白色斑點，腹面灰白色，也有白化的養殖品系，俗稱「白玉蝸牛」。
-                    </ul>
-                </div>
+                <div id="description"></div>
+                <div id="distribution"></div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1">
-                <div class="position-relative my-1">
-                    <img src="https://inaturalist-open-data.s3.amazonaws.com/photos/138936064/medium.jpeg?1624699512" style="width: 100%">
-                    <div class="imageright">非洲大蝸牛 2021/06/26<br>© 農夫x科學家 2021<br>@<a href="https://www.inaturalist.org/observations/84524898" target="_blank">iNaturalist</a></div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1">
-                <div class="position-relative my-1">
-                    <img src="https://inaturalist-open-data.s3.amazonaws.com/photos/138936064/medium.jpeg?1624699512" style="width: 100%">
-                    <div class="imageright">非洲大蝸牛 2021/06/26<br>© 農夫x科學家 2021<br>@<a href="https://www.inaturalist.org/observations/84524898" target="_blank">iNaturalist</a></div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1">
-                <div class="position-relative my-1">
-                    <img src="https://inaturalist-open-data.s3.amazonaws.com/photos/138936064/medium.jpeg?1624699512" style="width: 100%">
-                    <div class="imageright">非洲大蝸牛 2021/06/26<br>© 農夫x科學家 2021<br>@<a href="https://www.inaturalist.org/observations/84524898" target="_blank">iNaturalist</a></div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1">
-                <div class="position-relative my-1">
-                    <img src="https://inaturalist-open-data.s3.amazonaws.com/photos/138936064/medium.jpeg?1624699512" style="width: 100%">
-                    <div class="imageright">非洲大蝸牛 2021/06/26<br>© 農夫x科學家 2021<br>@<a href="https://www.inaturalist.org/observations/84524898" target="_blank">iNaturalist</a></div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1">
-                <div class="position-relative my-1">
-                    <img src="https://inaturalist-open-data.s3.amazonaws.com/photos/138936064/medium.jpeg?1624699512" style="width: 100%">
-                    <div class="imageright">非洲大蝸牛 2021/06/26<br>© 農夫x科學家 2021<br>@<a href="https://www.inaturalist.org/observations/84524898" target="_blank">iNaturalist</a></div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1">
-                <div class="position-relative my-1">
-                    <img src="https://inaturalist-open-data.s3.amazonaws.com/photos/138936064/medium.jpeg?1624699512" style="width: 100%">
-                    <div class="imageright">非洲大蝸牛 2021/06/26<br>© 農夫x科學家 2021<br>@<a href="https://www.inaturalist.org/observations/84524898" target="_blank">iNaturalist</a></div>
-                </div>
-            </div>
+        <div class="row" id="gallery">
         </div>
     </div>
     <div class="py-5"></div><div class="py-2"></div>
@@ -97,13 +54,24 @@
   <script src="sci-farmer.js" ></script>
   <script>
     var scientific_name = window.location.search.substring(1).replace('s=', '');
-    var url = 'https://www.tbn.org.tw/api/v2/species?name=' + scientific_name;
-    $.getJSON(url, function(data) {
-        var name_code = data['data'][0]['taicolNameCode'];
-        console.log(name_code);
-        var taieolurl = 'https://data.taieol.tw/eol/endpoint/taxondesc/species/' + name_code;
-        $.getJSON(url, function(eol) {
-            console.log(eol);
+    var taicolurl = 'https://gapfiller.tbn.org.tw/api/taicol?speciesname=' + scientific_name;
+    $.getJSON(taicolurl, function(taicol) {
+        var accepted_name_code = col[0]['accepted_name_code'];
+        var common_name = col[0]['common_name'];
+        $('#common_name').html(common_name);
+        console.log(common_name);
+        var taieolurl = 'https://gapfiller.tbn.org.tw/api/taieol/' + accepted_name_code;
+        $.getJSON(url, function(taieol) {
+            var name = taieol['name'];
+            $('#name').html(name);
+            var author = taieol['author'];
+            $('#author').html(author);
+            var description = taieol['description'];
+            $('#description').html(description);
+            var distribution = taieol['distribution'];
+            $('#distribution').html(distribution);
+            var permalink = taieol['permalink'];
+            $('#permalink').attr('href', permalink);
         });
     });
   </script>

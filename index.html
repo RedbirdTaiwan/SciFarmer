@@ -52,12 +52,24 @@
     var url = 'https://api.inaturalist.org/v1/observations?project_id=' + project_id + '&order=desc&order_by=created_at&per_page=' + per_page + '&locale=zh-TW&preferred_place_id=7887';
     $.getJSON(url, function(data) {
         var total_results = data['total_results'];
+        var item = data.results[0]
+        if( item['taxon'] != null){
+            if( item['taxon']['preferred_common_name'] != undefined){
+                var common_name = item['taxon']['preferred_common_name'];
+            }else{
+                var common_name = '未知';
+            }
+            var sci_name = item['taxon']['name'];
+        }else{
+            var common_name = '未知';
+            var sci_name = '';
+        }
         $('#farmland').html('農田裏的科學計畫');
-        $('#user').html(data.results[0]['user']['login']);
-        $('#common_name').html(data.results[0]['taxon']['preferred_common_name']);
-        $('#date').html(data.results[0]['observed_on']);
-        $('#source').attr('href', 'https://www.inaturalist.org/observations/'+data.results[0]['id']);
-        $('#image').attr('src', data.results[0]['observation_photos'][0]['photo']['url'].replace('square', 'large'));
+        $('#user').html(item['user']['login']);
+        $('#common_name').html(common_name);
+        $('#date').html(item['observed_on']);
+        $('#source').attr('href', 'https://www.inaturalist.org/observations/'+item['id']);
+        $('#image').attr('src', item['observation_photos'][0]['photo']['url'].replace('square', 'large'));
     });
 });
   </script>
