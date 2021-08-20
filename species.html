@@ -75,7 +75,7 @@
         $('#name').html(scientific_name);
         var taieolurl = 'https://gapfiller.tbn.org.tw/api/taieol/' + accepted_name_code;
         $.getJSON(taieolurl, function(taieol) {
-            if(taieol.length>0){
+            if('author' in taieol){
                 var author = '作者：'+taieol['author'];
                 $('#author').html(author);
                 var description = taieol['description'];
@@ -94,6 +94,7 @@
         var total_results = data['total_results'];
         var default_photo_url = '';
         var default_photo_attribution = '';
+        var default_photo_observationid = '';
         $.each(data.results, function(index, item) {
             if( item['taxon'] != null){
                 if( item['taxon']['preferred_common_name'] != undefined){
