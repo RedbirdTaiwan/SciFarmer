@@ -51,7 +51,7 @@
   <script src="sci-farmer.js" ></script>
   <script>
   $(document).ready(function(){
-    var project_id = farms['iNat']['農田裏的科學計畫']['project_id'];
+    var project_id = farms['農田裏的科學計畫']['iNat']['project_id'];
     var per_page = 1;
     var url = 'https://api.inaturalist.org/v1/observations?project_id=' + project_id + '&order=desc&order_by=created_at&per_page=' + per_page + '&locale=zh-TW&preferred_place_id=7887';
     $.getJSON(url, function(data) {

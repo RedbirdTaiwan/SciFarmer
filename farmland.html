@@ -55,10 +55,11 @@
   <script>
   $(document).ready(function(){
     var project = '農田裏的科學計畫';
+    const species_list = [];
     $('#project').html(project);
-    var project_id = farms['iNat'][project]['project_id'];
-    $('#location').html(farms['iNat'][project]['location']);
-    $('#type').html(farms['iNat'][project]['type']);
+    var project_id = farms[project]['iNat']['project_id'];
+    $('#location').html(farms[project]['location']);
+    $('#type').html(farms[project]['type']);
     var per_page = 30;
     var url = 'https://api.inaturalist.org/v1/observations?project_id=' + project_id + '&order=desc&order_by=created_at&per_page=' + per_page + '&locale=zh-TW&preferred_place_id=7887';
     $.getJSON(url, function(data) {
@@ -76,6 +77,9 @@
                 var common_name = '未知';
                 var sci_name = '';
             }
+            if(sci_name&&!species_list.includes(sci_name)){
+                species_list.push(sci_name);
+            }
             var date = item['observed_on'];
             var observationid = item['id'];
             var user = item['user']['login'];
@@ -90,11 +94,26 @@
         });
         $('#gallery').html(photos);
     });
-    var taxa_url = 'https://api.inaturalist.org/v1/observations/species_counts?project_id=' + project_id + '&order=desc&order_by=created_at&per_page=1&locale=zh-TW&preferred_place_id=7887';
-    $.getJSON(taxa_url, function(data) {
-        var total_results = data['total_results'];
-        $('#speciescount').html(total_results);
+    //eBird
+    hotspot_id = farms[project]['eBird']['hotspot_id'];
+    var eBirdurl = 'https://gapfiller.tbn.org.tw/api/ebird/'+hotspot_id;
+    $.getJSON(eBirdurl, function(data) {
+        var birdlist = '';
+        $.each(data, function(index, item) {
+            var common_name = item['common_name'];
+            var sci_name = item['sci_name'];
+            var date = item['odate'];
+            var user = item['observer'];
+            var checklisturl = item['checklisturl'];
+            var photourl = '';
+            if(sci_name&&!species_list.includes(sci_name)){
+                species_list.push(sci_name);
+            }
+            birdlist += '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a> '+date+'<br>©'+user+'<br>@<a href="'+checklisturl+'" target="_blank">eBird</a></div></div></div>';
+        });
+        $('#gallery').html($('#gallery').html()+birdlist);
+        $("#speciescount").html(species_list.length);
     });
-});
+  });
   </script>
 </html>
