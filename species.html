@@ -68,10 +68,10 @@
     var scientific_name = window.location.search.substring(1).replace('s=', '');
     var taicolurl = 'https://gapfiller.tbn.org.tw/api/taicol?speciesname=' + scientific_name;
     $.getJSON(taicolurl, function(taicol) {
-        if(taicol.length > 0){
-            var accepted_name_code = taicol[0]['accepted_name_code'];
-            var common_name = taicol[0]['common_name'];
-            scientific_name = taicol[0]['name'];
+        if(taicol){
+            var accepted_name_code = taicol['accepted_name_code'];
+            var common_name = taicol['common_name'].split(";")[0];
+            scientific_name = taicol['name'];
             $('#common_name').html(common_name);
             $('#name').html(scientific_name);
             var taieolurl = 'https://gapfiller.tbn.org.tw/api/taieol/' + accepted_name_code;
