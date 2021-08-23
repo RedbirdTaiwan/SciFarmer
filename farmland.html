@@ -88,7 +88,12 @@
                     var photourl = photo['photo']['url'].replace('square', 'medium');
                     var license_code = photo['photo']['license_code'];
                     var photoattribution = '©'+user+' ('+license_code+')';
-                    photos += '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a> '+date+'<br>'+photoattribution+'<br>@<a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">iNaturalist</a></div></div></div>';
+                    if(sci_name){
+                        photos += '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a> '+date+'<br>'+photoattribution+'<br>@<a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">iNaturalist</a></div></div></div>';
+                    }else{
+                        photos += '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright">'+common_name+' '+date+'<br>'+photoattribution+'<br>@<a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">iNaturalist</a></div></div></div>';
+                    }
+                    
                 });
             }
         });
@@ -109,7 +114,11 @@
             if(sci_name&&!species_list.includes(sci_name)){
                 species_list.push(sci_name);
             }
-            birdlist += '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a> '+date+'<br>©'+user+'<br>@<a href="'+checklisturl+'" target="_blank">eBird</a></div></div></div>';
+            if(sci_name){
+                birdlist += '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a> '+date+'<br>©'+user+'<br>@<a href="'+checklisturl+'" target="_blank">eBird</a></div></div></div>';
+            }else{
+                birdlist += '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright">'+common_name+' '+date+'<br>©'+user+'<br>@<a href="'+checklisturl+'" target="_blank">eBird</a></div></div></div>';
+            }
         });
         $('#gallery').html($('#gallery').html()+birdlist);
         $("#speciescount").html(species_list.length);
