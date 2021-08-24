@@ -1,5 +1,7 @@
-const farms = {
-    農田裏的科學計畫: {
+const farmlands = {
+    farmland01: {
+        name: '農田裏的科學計畫',
+        farmers: ['farmer01'],
         iNat: {
             project_id: 'cb218e40-a6ce-4547-b29b-b84619353ae4',
             location: '宜蘭員山',
@@ -10,14 +12,20 @@ const farms = {
         },
         location: '宜蘭員山',
         type: '水稻田',
+        website: 'https://www.scienceinfield.com/',
     }
 }
 
 const farmers = {
-    iNat: {
-        農田裏的科學計畫: {
+    farmer01: {
+        name: '林芳儀',
+        farmlands: ['farmland01'],
+        fb: 'https://www.facebook.com/fangyee.lin',
+        iNat: {
             user_id: '737771',
-            fb: 'https://www.facebook.com/fangyee.lin',
-        }
+        },
+        eBird: {
+            user_id: '',
+        },
     }
 }

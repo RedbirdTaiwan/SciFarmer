@@ -25,7 +25,10 @@
             </div>
             <div class="col-6">
                 <div class="my-1">
-                    <div class="h4" id="project"></div>
+                    <div class="h4" id="farmer"></div>
+                </div>
+                <div class="my-1">
+                    <img src="images/farmland02.png" class="float" style="height:24px">田區: <span id="farmland"></span>
                 </div>
                 <div class="my-1">
                     <img src="images/collector02.png" class="float" style="height:24px">等級: Level <span id="level"></span>
@@ -53,12 +56,19 @@
   <script src="sci-farmer.js" ></script>
   <script>
   $(document).ready(function(){
-    var project = '農田裏的科學計畫';
-    var user_id = farmers['iNat'][project]['user_id'];
-    $('#project').html(project);
-    $('#fb').attr('href', farmers['iNat'][project]['fb']);
+    const farmer = window.location.search.substring(1).replace('farmer=', '');
+    const species_list = [];
+    var project_id = farmlands[farmers[farmer]['farmlands'][0]]['iNat']['project_id'];
+    var user_id = farmers[farmer]['iNat']['user_id'];
+    var farms = '';
+    $.each(farmers[farmer]['farmlands'], function(index, item) {
+        farms += '<a href="farmland.html?farmland='+item+'">'+farmlands[item]['name']+'</a>';
+    });
+    $('#farmland').html(farms);
+    $('#farmer').html(farmers[farmer]['name']);
+    $('#fb').attr('href', farmers[farmer]['fb']);
     var per_page = 30;
-    var url = 'https://api.inaturalist.org/v1/observations?user_id=' + user_id + '&order=desc&order_by=created_at&per_page=' + per_page + '&locale=zh-TW&preferred_place_id=7887';
+    var url = 'https://api.inaturalist.org/v1/observations?user_id=' + user_id + '&project_id=' + project_id + '&order_by=created_at&per_page=' + per_page + '&locale=zh-TW&preferred_place_id=7887';
     $.getJSON(url, function(data) {
         var photos = '';
         var total_results = data['total_results'];
@@ -74,23 +84,27 @@
                 var common_name = '未知';
                 var sci_name = '';
             }
+            if(sci_name&&!species_list.includes(sci_name)){
+                species_list.push(sci_name);
+            }
             var date = item['observed_on'];
             var observationid = item['id'];
             var user = item['user']['login'];
             if(item['observation_photos'].length > 0){
-                var photo = item['observation_photos'][0]
+                var photo = item['observation_photos'][0];
                 var photourl = photo['photo']['url'].replace('square', 'medium');
                 var license_code = photo['photo']['license_code'];
                 var photoattribution = '©'+user+' ('+license_code+')';
-                photos += '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a> '+date+'<br>'+photoattribution+'<br>@<a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">iNaturalist</a></div></div></div>';
+                if(sci_name){
+                    photos += '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><a href="species.html?s='+sci_name+'"><img src="'+photourl+'" class="squareimag"></a><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a>@'+date+'<br><a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">'+photoattribution+'</a></div></div></div>';
+                }else{
+                    photos += '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright">'+common_name+'@'+date+'<br><a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">'+photoattribution+'<br></a></div></div></div>';
+                }
             }
         });
         $('#gallery').html(photos);
-    });
-    var taxa_url = 'https://api.inaturalist.org/v1/observations/species_counts?user_id=' + user_id + '&order=desc&order_by=created_at&per_page=1&locale=zh-TW&preferred_place_id=7887';
-    $.getJSON(taxa_url, function(data) {
-        var total_results = data['total_results'];
-        $('#speciescount').html(total_results);
+        var total_results = species_list.length;
+        $("#speciescount").html(total_results);
         if(total_results>500){
             $('#level').html(5);
         }else if(total_results>250){

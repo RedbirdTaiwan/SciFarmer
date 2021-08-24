@@ -25,14 +25,14 @@
                 </div>
             </div>
             <div class="col-6 text-center">
-                <a href="farmland.html">
+                <a href="farmland.html?farmland=farmland01">
                     <img src="images/farmland.png" class="img-fluid my-2" alt="news">
                     <div><i class="bi bi-caret-down-fill"></i></div>
                     <div>MORE FARMLAND</div>
                 </a>
             </div>
             <div class="col-6 text-center">
-                <a href="collector.html">
+                <a href="farmer.html?farmer=farmer01">
                     <img src="images/collector.png" class="img-fluid my-2" alt="news">
                     <i class="bi bi-caret-down-fill"></i>
                     <div>MORE COLLECTOR</div>
@@ -51,7 +51,8 @@
   <script src="sci-farmer.js" ></script>
   <script>
   $(document).ready(function(){
-    var project_id = farms['農田裏的科學計畫']['iNat']['project_id'];
+    const farmland = 'farmland01';
+    var project_id = farmlands[farmland]['iNat']['project_id'];
     var per_page = 1;
     var url = 'https://api.inaturalist.org/v1/observations?project_id=' + project_id + '&order=desc&order_by=created_at&per_page=' + per_page + '&locale=zh-TW&preferred_place_id=7887';
     $.getJSON(url, function(data) {
@@ -68,7 +69,7 @@
             var common_name = '未知';
             var sci_name = '';
         }
-        $('#farmland').html('農田裏的科學計畫');
+        $('#farmland').html(farmlands[farmland]['name']);
         $('#user').html(item['user']['login']);
         $('#common_name').html(common_name);
         $('#date').html(item['observed_on']);
