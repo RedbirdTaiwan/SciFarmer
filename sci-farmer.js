@@ -5,7 +5,7 @@ const farmlands = {
         "iNat": {
             "project_id": "cb218e40-a6ce-4547-b29b-b84619353ae4",
             "location": "宜蘭員山",
-            "type": "水稻田",
+            "type": "水稻田"
         },
         "eBird": {
             "hotspot_id": "L15510987"
@@ -22,10 +22,10 @@ const farmers = {
         "farmlands": ["farmland01"],
         "fb": "https://www.facebook.com/fangyee.lin",
         "iNat": {
-            "user_id": "737771",
+            "user_id": "737771"
         },
         "eBird": {
-            "user_id": "",
-        },
+            "user_id": ""
+        }
     }
 }
