@@ -15,28 +15,44 @@
     <nav class="sticky-top">
         <img src="images/frontpage-banner.png" class="banner" alt="Header image">
     </nav>
-    <div class="container-lg position-relative px-5">
+    <div class="container-fluid position-relative px-5">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 col-xl-7">
                 <img src="images/news.png" class="img my-2" alt="news">
                 <img id="image" src="" class="newobservation" alt="new observation">
                 <div class="container-fluid px-0 py-1">
-                <i class="bi bi-plus-lg"></i> <i class="bi bi-plus-lg"></i> <span id="user"></span> 的新蒐集, 物種:<span id="common_name"></span>, 地點:<span id="farmland"></span>, 時間:<span id="date"></span>, 收藏:<a id="source" href="" target="_blank">iNaturalist</a>
+                <i class="bi bi-plus-lg"></i> <i class="bi bi-plus-lg"></i> <span id="user"></span> 的新蒐集, 物種:<span id="common_name"></span>, 地點:<span id="farmland"></span>, 時間:<span id="date"></span>, 收藏:<a id="source" href="" target="_blank"></a>
                 </div>
             </div>
-            <div class="col-6 text-center">
-                <a href="farmland.html?farmland=farmland01">
-                    <img src="images/farmland.png" class="img-fluid my-2" alt="news">
-                    <div><i class="bi bi-caret-down-fill"></i></div>
-                    <div>MORE FARMLAND</div>
-                </a>
-            </div>
-            <div class="col-6 text-center">
-                <a href="farmer.html?farmer=farmer01">
-                    <img src="images/collector.png" class="img-fluid my-2" alt="news">
-                    <i class="bi bi-caret-down-fill"></i>
-                    <div>MORE COLLECTOR</div>
-                </a>
+            <div class="col-12 col-xl-5">
+                <div class="row">
+                    <div class="col-6 col-xl-12 text-center">
+                        <div class="row">
+                            <div class="col-12 col-xl-9">
+                                <a href="farmland.html?farmland=farmland01">
+                                    <img src="images/farmland.png" class="img-fluid my-2" alt="news">
+                                </a>
+                            </div>
+                            <div class="col-12 col-xl-3">
+                                <div><i class="bi bi-caret-down-fill"></i></div>
+                                <div><a href="farmland.html?farmland=farmland01">MORE FARMLAND</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-xl-12 text-center">
+                        <div class="row">
+                            <div class="col-12 col-xl-9">
+                                <a href="farmer.html?farmer=farmer01">
+                                    <img src="images/collector.png" class="img-fluid my-2" alt="news">
+                                </a>
+                            </div>
+                            <div class="col-12 col-xl-3">
+                                <div><i class="bi bi-caret-down-fill"></i></div>
+                                <div><a href="farmer.html?farmer=farmer01">MORE COLLECTOR</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -51,30 +67,26 @@
   <script src="sci-farmer.js" ></script>
   <script>
   $(document).ready(function(){
-    const farmland = 'farmland01';
-    var project_id = farmlands[farmland]['iNat']['project_id'];
-    var per_page = 1;
-    var url = 'https://api.inaturalist.org/v1/observations?project_id=' + project_id + '&order=desc&order_by=created_at&per_page=' + per_page + '&locale=zh-TW&preferred_place_id=7887';
+    var url = 'https://gapfiller.tbn.org.tw/api/observations';
     $.getJSON(url, function(data) {
-        var total_results = data['total_results'];
-        var item = data.results[0]
-        if( item['taxon'] != null){
-            if( item['taxon']['preferred_common_name'] != undefined){
-                var common_name = item['taxon']['preferred_common_name'];
-            }else{
-                var common_name = '未知';
-            }
-            var sci_name = item['taxon']['name'];
-        }else{
-            var common_name = '未知';
-            var sci_name = '';
+        var latest = data[0]
+        if( latest['common_name'] == null){
+            latest['common_name'] = '未知';
+        }
+        source = latest['source'];
+        locId = latest['locId'];
+        if(source=='iNaturalist'){
+            farmland = Object.keys(farmlands).find(key => farmlands[key]['iNat']['project_id'] === locId)
+        }else if(source=='eBird'){
+            farmland = Object.keys(farmlands).find(key => farmlands[key]['eBird']['hotspot_id'] === locId)
         }
         $('#farmland').html(farmlands[farmland]['name']);
-        $('#user').html(item['user']['login']);
-        $('#common_name').html(common_name);
-        $('#date').html(item['observed_on']);
-        $('#source').attr('href', 'https://www.inaturalist.org/observations/'+item['id']);
-        $('#image').attr('src', item['observation_photos'][0]['photo']['url'].replace('square', 'large'));
+        $('#user').html(latest['userDisplayName']);
+        $('#common_name').html(latest['common_name']);
+        $('#date').html(latest['obsDt']);
+        $('#source').html(source);
+        $('#source').attr('href', 'https://www.inaturalist.org/observations/'+latest['observationid']);
+        $('#image').attr('src', latest['photourl'].replace('medium', 'large'));
     });
 });
   </script>
