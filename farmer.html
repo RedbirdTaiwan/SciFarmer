@@ -11,24 +11,28 @@
     <link rel="stylesheet" href="sci-farmer.css">
     <title>農夫x科學家</title>
   </head>
-  <body style="background-color: white;">
-    <nav class="sticky-top" style="background-color: #C6BEB4;">
-        <div class="container ps-5 pt-4 pb-2">
-            <a href="index.html"><img src="images/title.png" class="float" alt="Title image" style="height: 60px"></a>
-            <a href="index.html"><img src="images/waterhen.gif" class="float" alt="Waterhen image" style="height: 80px"></a>
+  <body style="background-color: #FFFFFF;">
+    <nav class="sticky-top" class="banner" style="background-color:#DED1C8;">
+        <img src="images/title.png" alt="Header image" style="height:60px;">
+        <img src="images/waterhen.gif" class="float" alt="Waterhen image" style="height: 60px">
+        <div class="text-center h5 pb-2">
+            <div class="d-inline text-center h6 pb-2 mx-4"><a href="index.html">首頁</a></div>
+            <div class="d-inline text-center h6 pb-2 mx-4"><a href="farmers.html">搜集者</a></div>
+            <div class="d-inline text-center h6 pb-2 mx-4"><a href="farmlands.html">農田</a></div>
         </div>
+        <img src="images/flag.png" class="footer" style="position: absolute; right:5%; bottom:-4%; height: 80px">
     </nav>
     <div class="container-lg position-relative p-5">
         <div class="row">
             <div class="col-6 d-flex justify-content-end">
-                <img src="images/collector01.png">
+                <div class="circle-bg"><img id="avatar" src=""></div>
             </div>
             <div class="col-6">
                 <div class="my-1">
                     <div class="h4" id="farmer"></div>
                 </div>
-                <div class="my-1">
-                    <img src="images/farmland02.png" class="float" style="height:24px">田區: <span id="farmland"></span>
+                <div class="my-1" id="farmland">
+                    
                 </div>
                 <div class="my-1">
                     <img src="images/collector02.png" class="float" style="height:24px">等級: Level <span id="level"></span>
@@ -37,7 +41,7 @@
                     <img src="images/collector03.png" class="float" style="height:24px">蒐集物種: <span id="speciescount"></span>
                 </div>
                 <div class="my-1">
-                    <img src="images/collector04.png" class="float" style="height:24px">Link: <a id="fb" href="" target="_blank"><i class="bi bi-facebook" style="color:blue;"></i></a>
+                    <img src="images/link.png" class="float" style="height:24px">Link: <a id="fb" href="" target="_blank"><i class="bi bi-facebook" style="color:blue;"></i></a>
                 </div>
             </div>
         </div>
@@ -58,64 +62,72 @@
   $(document).ready(function(){
     const farmer = window.location.search.substring(1).replace('farmer=', '');
     const species_list = [];
-    var project_id = farmlands[farmers[farmer]['farmlands'][0]]['iNat']['project_id'];
     var user_id = farmers[farmer]['iNat']['user_id'];
     var farms = '';
     $.each(farmers[farmer]['farmlands'], function(index, item) {
-        farms += '<a href="farmland.html?farmland='+item+'">'+farmlands[item]['name']+'</a>';
+        farms += '<img src="images/'+item+'.png" class="float" style="height:24px">田區: <span><a href="farmland.html?farmland='+item+'">'+farmlands[item]['name']+'</a></span>';
     });
     $('#farmland').html(farms);
+    $('#avatar').attr('src','images/'+farmer+'.png');
     $('#farmer').html(farmers[farmer]['name']);
     $('#fb').attr('href', farmers[farmer]['fb']);
-    var per_page = 30;
-    var url = 'https://api.inaturalist.org/v1/observations?user_id=' + user_id + '&project_id=' + project_id + '&order_by=created_at&per_page=' + per_page + '&locale=zh-TW&preferred_place_id=7887';
+    $("#speciescount").html(0);
+    // observation
+    var url = 'https://gapfiller.tbn.org.tw/api/observations';
     $.getJSON(url, function(data) {
         var photos = '';
-        var total_results = data['total_results'];
-        $.each(data.results, function(index, item) {
-            if( item['taxon'] != null){
-                if( item['taxon']['preferred_common_name'] != undefined){
-                    var common_name = item['taxon']['preferred_common_name'];
-                }else{
-                    var common_name = '未知';
-                }
-                var sci_name = item['taxon']['name'];
-            }else{
-                var common_name = '未知';
-                var sci_name = '';
-            }
-            if(sci_name&&!species_list.includes(sci_name)){
-                species_list.push(sci_name);
-            }
-            var date = item['observed_on'];
-            var observationid = item['id'];
-            var user = item['user']['login'];
-            if(item['observation_photos'].length > 0){
-                var photo = item['observation_photos'][0];
-                var photourl = photo['photo']['url'].replace('square', 'medium');
-                var license_code = photo['photo']['license_code'];
-                var photoattribution = '©'+user+' ('+license_code+')';
-                if(sci_name){
-                    photos += '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><a href="species.html?s='+sci_name+'"><img src="'+photourl+'" class="squareimag"></a><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a>@'+date+'<br><a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">'+photoattribution+'</a></div></div></div>';
-                }else{
-                    photos += '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright">'+common_name+'@'+date+'<br><a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">'+photoattribution+'<br></a></div></div></div>';
-                }
+        $.each(data, function(index, item) {
+            var source = item['source'];
+            var observationid = item['observationid'];
+            var date = item['obsDt'];
+            var sci_name = item['sci_name'];
+            var userDisplayName = item['userDisplayName'];
+            var photourl = item['photourl'];
+            var photo_license_code = item['photo_license_code'];
+            var common_name = item['common_name'];
+            var name_code = item['name_code'];
+            switch(source) {
+                case 'iNaturalist':
+                    if(!userDisplayName == farmers[farmer]['iNat']['user_id']){
+                        break;
+                    }
+                    if (name_code){
+                        $('#gallery').html($('#gallery').html() + '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><a href="species.html?s='+sci_name+'"><img src="'+photourl+'" class="squareimag"></a><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a>@'+date+'<br><a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">'+userDisplayName+'('+photo_license_code+')</a></div></div></div>');
+                    }else{
+                        $('#gallery').html($('#gallery').html() + '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright">'+common_name+'@'+date+'<br><a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">'+userDisplayName+'('+photo_license_code+')</a></div></div></div>');
+                    }
+                    $("#speciescount").html(parseInt($("#speciescount").html())+1);
+                    break;
+                case 'eBird':
+                    if(!userDisplayName == farmers[farmer]['eBird']['user_id']){
+                        break;
+                    }
+                    var inaturl = 'https://api.inaturalist.org/v1/observations?photos=true&photo_licensed=true&taxon_name='+sci_name+'&place_id=7888&quality_grade=research&locale=zh-TW&preferred_place_id=7887&page=1&per_page=1&order=desc&order_by=created_at';
+                    var checklisturl = 'https://ebird.org/checklist/'+observationid
+                    $.getJSON(inaturl, function(datainat) {
+                        if(datainat.results.length > 0){
+                            inat = datainat.results[0];
+                            var photourl = inat['observation_photos'][0]['photo']['url'].replace('square', 'medium');
+                            var inat_photo_license_code = inat['observation_photos'][0]['photo']['license_code']
+                            var inat_user = inat['user']['login']
+                            var observationid = inat['id']
+                            var photo_license = '<br><a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">攝影：' + inat_user + ' ('+inat_photo_license_code+')</a>';
+                        }else{
+                            var photourl = '';
+                            var photo_license = '';
+                        }
+                        if(name_code){
+                            $('#gallery').html($('#gallery').html() + '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><a href="species.html?s='+sci_name+'"><img src="'+photourl+'" class="squareimag"></a><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a>@'+date+'<br><a href="'+checklisturl+'" target="_blank">記錄：'+userDisplayName+'</a>'+photo_license+'</div></div></div>');
+                        }else{
+                            $('#gallery').html($('#gallery').html() + '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright">'+common_name+'@'+date+'<br><a href="'+checklisturl+'" target="_blank">記錄：'+userDisplayName+'<br></a>'+photo_license+'</div></div></div>');
+                        }
+                    });
+                    $("#speciescount").html(parseInt($("#speciescount").html())+1);
+                    break;
+                default:
+                    // code block
             }
         });
-        $('#gallery').html(photos);
-        var total_results = species_list.length;
-        $("#speciescount").html(total_results);
-        if(total_results>500){
-            $('#level').html(5);
-        }else if(total_results>250){
-            $('#level').html(4);
-        }else if(total_results>100){
-            $('#level').html(3);
-        }else if(total_results>50){
-            $('#level').html(2);
-        }else{
-            $('#level').html(1);
-        }
     });
 });
   </script>

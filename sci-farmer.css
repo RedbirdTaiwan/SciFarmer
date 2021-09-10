@@ -1,8 +1,6 @@
 .banner {
-    display: block;
+    position: absolute;
     height: 115px;
-    max-width: 100%;
-    object-fit: cover;
 }
 
 .footer {
@@ -22,7 +20,7 @@
     width: 100%;
     height: auto;
     background-color: white;
-    aspect-ratio: 16/9;
+    aspect-ratio: 5/4;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     object-fit: cover;
 }
@@ -66,4 +64,30 @@ a {
     height: auto;
     aspect-ratio: 1/1;
     object-fit: cover;
+}
+
+.centerimg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hyperlink {
+    cursor: pointer;
+}
+
+.circle-bg #avatar {
+    height: 140px;
+    display: block;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.circle-bg {
+    width: 180px;
+    height: 180px;
+    background: #C58F0F;
+    -moz-border-radius: 90px;
+    -webkit-border-radius: 90px;
+    border-radius: 90px;
 }
