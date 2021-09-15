@@ -127,41 +127,39 @@
             var locId = item['locId'];
             switch(source) {
                 case 'iNaturalist':
-                    if(!locId == farmlands[farmland]['iNat']['project_id']){
-                        break;
+                    if(locId == farmlands[farmland]['iNat']['project_id']){
+                        if (name_code){
+                            $('#gallery').html($('#gallery').html() + '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><a href="species.html?s='+sci_name+'"><img src="'+photourl+'" class="squareimag"></a><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a>@'+date+'<br><a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">'+userDisplayName+'('+photo_license_code+')</a></div></div></div>');
+                        }else{
+                            $('#gallery').html($('#gallery').html() + '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright">'+common_name+'@'+date+'<br><a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">'+userDisplayName+'('+photo_license_code+')</a></div></div></div>');
+                        }
+                        $("#speciescount").html(parseInt($("#speciescount").html())+1);
                     }
-                    if (name_code){
-                        $('#gallery').html($('#gallery').html() + '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><a href="species.html?s='+sci_name+'"><img src="'+photourl+'" class="squareimag"></a><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a>@'+date+'<br><a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">'+userDisplayName+'('+photo_license_code+')</a></div></div></div>');
-                    }else{
-                        $('#gallery').html($('#gallery').html() + '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright">'+common_name+'@'+date+'<br><a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">'+userDisplayName+'('+photo_license_code+')</a></div></div></div>');
-                    }
-                    $("#speciescount").html(parseInt($("#speciescount").html())+1);
                     break;
                 case 'eBird':
-                    if(!locId == farmlands[farmland]['eBird']['hotspot_id']){
-                        break;
+                    if(locId == farmlands[farmland]['eBird']['hotspot_id']){
+                        var inaturl = 'https://api.inaturalist.org/v1/observations?photos=true&photo_licensed=true&taxon_name='+sci_name+'&place_id=7888&quality_grade=research&locale=zh-TW&preferred_place_id=7887&page=1&per_page=1&order=desc&order_by=created_at';
+                        var checklisturl = 'https://ebird.org/checklist/'+observationid
+                        $.getJSON(inaturl, function(datainat) {
+                            if(datainat.results.length > 0){
+                                inat = datainat.results[0];
+                                var photourl = inat['observation_photos'][0]['photo']['url'].replace('square', 'medium');
+                                var inat_photo_license_code = inat['observation_photos'][0]['photo']['license_code']
+                                var inat_user = inat['user']['login']
+                                var observationid = inat['id']
+                                var photo_license = '<br><a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">攝影：' + inat_user + ' ('+inat_photo_license_code+')</a>';
+                            }else{
+                                var photourl = '';
+                                var photo_license = '';
+                            }
+                            if(name_code){
+                                $('#gallery').html($('#gallery').html() + '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><a href="species.html?s='+sci_name+'"><img src="'+photourl+'" class="squareimag"></a><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a>@'+date+'<br><a href="'+checklisturl+'" target="_blank">記錄：'+userDisplayName+'</a>'+photo_license+'</div></div></div>');
+                            }else{
+                                $('#gallery').html($('#gallery').html() + '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright">'+common_name+'@'+date+'<br><a href="'+checklisturl+'" target="_blank">記錄：'+userDisplayName+'<br></a>'+photo_license+'</div></div></div>');
+                            }
+                        });
+                        $("#speciescount").html(parseInt($("#speciescount").html())+1);
                     }
-                    var inaturl = 'https://api.inaturalist.org/v1/observations?photos=true&photo_licensed=true&taxon_name='+sci_name+'&place_id=7888&quality_grade=research&locale=zh-TW&preferred_place_id=7887&page=1&per_page=1&order=desc&order_by=created_at';
-                    var checklisturl = 'https://ebird.org/checklist/'+observationid
-                    $.getJSON(inaturl, function(datainat) {
-                        if(datainat.results.length > 0){
-                            inat = datainat.results[0];
-                            var photourl = inat['observation_photos'][0]['photo']['url'].replace('square', 'medium');
-                            var inat_photo_license_code = inat['observation_photos'][0]['photo']['license_code']
-                            var inat_user = inat['user']['login']
-                            var observationid = inat['id']
-                            var photo_license = '<br><a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">攝影：' + inat_user + ' ('+inat_photo_license_code+')</a>';
-                        }else{
-                            var photourl = '';
-                            var photo_license = '';
-                        }
-                        if(name_code){
-                            $('#gallery').html($('#gallery').html() + '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><a href="species.html?s='+sci_name+'"><img src="'+photourl+'" class="squareimag"></a><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a>@'+date+'<br><a href="'+checklisturl+'" target="_blank">記錄：'+userDisplayName+'</a>'+photo_license+'</div></div></div>');
-                        }else{
-                            $('#gallery').html($('#gallery').html() + '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><img src="'+photourl+'" class="squareimag"><div class="imageright">'+common_name+'@'+date+'<br><a href="'+checklisturl+'" target="_blank">記錄：'+userDisplayName+'<br></a>'+photo_license+'</div></div></div>');
-                        }
-                    });
-                    $("#speciescount").html(parseInt($("#speciescount").html())+1);
                     break;
                 default:
                     // code block
