@@ -29,7 +29,7 @@
             </div>
             <div class="col-8">
                 <div class="my-1">
-                    <img src="images/farmland02.png" class="float" style="height:24px">田區位置: <span id="location"></span> <a href="https://www.inaturalist.org/projects/cb218e40-a6ce-4547-b29b-b84619353ae4" target="_blank">MAP</a>
+                    <img src="images/farmland02.png" class="float" style="height:24px">田區位置: <span id="location"></span> <a id="map" href="" target="_blank">MAP</a>
                 </div>
                 <div class="my-1">
                     <img src="images/farmland03.png" class="float" style="height:24px"><span id="type"></span>
@@ -107,6 +107,7 @@
     $('#avatar').attr('src','images/'+farmland+'.png');
     $('#farmer').html(farmer);
     $('#location').html(farmlands[farmland]['location']);
+    $('#map').attr('href','https://www.inaturalist.org/projects/'+farmlands[farmland]['iNat']['project_id']);
     $('#type').html(farmlands[farmland]['type']);
     $('#website').html('<a href="'+farmlands[farmland]['website']+'">'+farmlands[farmland]['website']+'</a>');
     $("#speciescount").html(0);
