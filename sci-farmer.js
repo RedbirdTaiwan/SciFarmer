@@ -13,6 +13,16 @@ const farmlands = {
         "location": "宜蘭員山",
         "type": "水稻田",
         "website": "https://www.scienceinfield.com/"
+    },
+    "farmland02": {
+        "name": "美濃龍肚友善田",
+        "farmers": ["farmer02"],
+        "iNat": {
+            "project_id": "b5c008d3-d251-401d-880b-38fa10aad05b"
+        },
+        "location": "高雄美濃",
+        "type": "水稻田",
+        "website": "#"
     }
 }
 
@@ -23,6 +33,17 @@ const farmers = {
         "fb": "https://www.facebook.com/fangyee.lin",
         "iNat": {
             "user_id": "linfy66"
+        },
+        "eBird": {
+            "user_id": ""
+        }
+    },
+    "farmer02": {
+        "name": "陳柏豪",
+        "farmlands": ["farmland02"],
+        "fb": "https://www.facebook.com/604738989/",
+        "iNat": {
+            "user_id": "pohaochen"
         },
         "eBird": {
             "user_id": ""
