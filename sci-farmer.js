@@ -26,7 +26,7 @@ const farmlands = {
     },
     "farmland03": {
         "name": "美濃湖水雉棲地",
-        "farmers": ["farmer02"，"farmer03"],
+        "farmers": ["farmer02", "farmer03"],
         "iNat": {
             "project_id": "ab3fc249-2594-4872-9b01-0e5ea75bf4a1"
         },
