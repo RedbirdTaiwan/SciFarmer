@@ -98,6 +98,7 @@
                     }
                     break;
                 case 'eBird':
+                    console.log(userDisplayName);
                     if(userDisplayName == farmers[farmer]['eBird']['user_id']){
                         var inaturl = 'https://api.inaturalist.org/v1/observations?photos=true&photo_licensed=true&taxon_name='+sci_name+'&place_id=7888&quality_grade=research&locale=zh-TW&preferred_place_id=7887&page=1&per_page=1&order=desc&order_by=created_at';
                         var checklisturl = 'https://ebird.org/checklist/'+observationid
