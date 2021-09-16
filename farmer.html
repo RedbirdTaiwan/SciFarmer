@@ -61,11 +61,11 @@
   <script>
   $(document).ready(function(){
     const farmer = window.location.search.substring(1).replace('farmer=', '');
+    console.log(farmer);
     const species_list = [];
-    var user_id = farmers[farmer]['iNat']['user_id'];
     var farms = '';
     $.each(farmers[farmer]['farmlands'], function(index, item) {
-        farms += '<img src="images/'+item+'.png" class="float" style="height:24px">田區: <span><a href="farmland.html?farmland='+item+'">'+farmlands[item]['name']+'</a></span>';
+        farms += ' <img src="images/'+item+'.png" class="float" style="height:24px">田區: <span><a href="farmland.html?farmland='+item+'">'+farmlands[item]['name']+'</a></span>';
     });
     $('#farmland').html(farms);
     $('#avatar').attr('src','images/'+farmer+'.png');
