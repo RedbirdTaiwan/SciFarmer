@@ -66,6 +66,9 @@ const farmers = {
         "name": "高雄鳥會",
         "farmlands": ["farmland03"],
         "fb": "https://www.facebook.com/kwbs1979/",
+        "iNat": {
+            "user_id": ""
+        },
         "eBird": {
             "user_id": "高雄 鳥會"
         }
