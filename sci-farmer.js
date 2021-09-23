@@ -37,6 +37,19 @@ const farmlands = {
         "location": "高雄美濃",
         "type": "菱角",
         "website": "https://www.facebook.com/groups/1977255549258794/"
+    },
+    "farmland04": {
+        "name": "田鱉米農場",
+        "farmers": ["farmer04"],
+        "iNat": {
+            "project_id": "6b741243-98bb-43a7-9b78-407445618fb9"
+        },
+        "eBird": {
+            "hotspot_id": ""
+        },
+        "location": "苗栗通霄",
+        "type": "水稻田",
+        "website": "https://giantwaterbug.blogspot.com/"
     }
 }
 
@@ -72,6 +85,17 @@ const farmers = {
         },
         "eBird": {
             "user_id": "高雄 鳥會"
+        }
+    },
+    "farmer04": {
+        "name": "王正安",
+        "farmlands": ["farmland04"],
+        "fb": "https://www.facebook.com/q24518948",
+        "iNat": {
+            "user_id": "anglerfish890"
+        },
+        "eBird": {
+            "user_id": "ANANANAN"
         }
     }
 }
