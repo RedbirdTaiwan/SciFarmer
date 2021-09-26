@@ -45,7 +45,7 @@ const farmlands = {
             "project_id": "6b741243-98bb-43a7-9b78-407445618fb9"
         },
         "eBird": {
-            "hotspot_id": ""
+            "hotspot_id": "L5437766"
         },
         "location": "苗栗通霄",
         "type": "水稻田",
@@ -95,7 +95,7 @@ const farmers = {
             "user_id": "anglerfish890"
         },
         "eBird": {
-            "user_id": "ANANANAN"
+            "user_id": "ZhengAn Wang"
         }
     }
 }
