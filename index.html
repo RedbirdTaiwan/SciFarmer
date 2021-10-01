@@ -74,9 +74,9 @@
         source = latest['source'];
         locId = latest['locId'];
         if(source=='iNaturalist'){
-            farmland = Object.keys(farmlands).find(key => farmlands[key]['iNat']['project_id'] === locId)
+            farmland = Object.keys(farmlands).find(key => farmlands[key]['iNat'] === locId)
         }else if(source=='eBird'){
-            farmland = Object.keys(farmlands).find(key => farmlands[key]['eBird']['hotspot_id'] === locId)
+            farmland = Object.keys(farmlands).find(key => farmlands[key]['eBird'] === locId)
         }
         $('#farmland').html(farmlands[farmland]['name']);
         $('#user').html(latest['userDisplayName']);

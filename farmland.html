@@ -38,6 +38,9 @@
                     <img src="images/farmland03.png" class="float" style="height:24px"><span id="type"></span>
                 </div>
                 <div class="my-1">
+                    <img src="images/farmland05.png" class="float" style="height:24px"><span id="product"></span>
+                </div>
+                <div class="my-1">
                     <img src="images/farmland04.png" class="float" style="height:24px">耕作者: <span id="farmer"></span>
                 </div>
                 <div class="my-1">
@@ -74,8 +77,9 @@
     $('#avatar').attr('src','images/'+farmland+'.png');
     $('#farmer').html(farmer);
     $('#location').html(farmlands[farmland]['location']);
-    $('#map').attr('href','https://www.inaturalist.org/projects/'+farmlands[farmland]['iNat']['project_id']);
+    $('#map').attr('href','https://www.inaturalist.org/projects/'+farmlands[farmland]['iNat']);
     $('#type').html(farmlands[farmland]['type']);
+    $('#product').html(farmlands[farmland]['product']);
     $('#website').html('<a href="'+farmlands[farmland]['website']+'">'+farmlands[farmland]['website']+'</a>');
     $("#speciescount").html(0);
     // observation
@@ -95,7 +99,7 @@
             var locId = item['locId'];
             switch(source) {
                 case 'iNaturalist':
-                    if(locId == farmlands[farmland]['iNat']['project_id']){
+                    if(locId == farmlands[farmland]['iNat']){
                         if (name_code){
                             $('#gallery').html($('#gallery').html() + '<div class="col-12 col-md-6 col-lg-4 col-xl-3 px-1"><div class="position-relative my-1"><a href="species.html?s='+sci_name+'"><img src="'+photourl+'" class="squareimag"></a><div class="imageright"><a href="species.html?s='+sci_name+'">'+common_name+'</a>@'+date+'<br><a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">'+userDisplayName+'('+photo_license_code+')</a></div></div></div>');
                         }else{
@@ -105,7 +109,7 @@
                     }
                     break;
                 case 'eBird':
-                    if(locId == farmlands[farmland]['eBird']['hotspot_id']){
+                    if(locId == farmlands[farmland]['eBird']){
                         var inaturl = 'https://api.inaturalist.org/v1/observations?photos=true&photo_licensed=true&taxon_name='+sci_name+'&place_id=7888&quality_grade=research&locale=zh-TW&preferred_place_id=7887&page=1&per_page=1&order=desc&order_by=created_at';
                         var checklisturl = 'https://ebird.org/checklist/'+observationid
                         $.getJSON(inaturl, function(datainat) {
