@@ -37,7 +37,7 @@
     var results = '';
     $.getJSON(url, function(data) {
         $.each(data, function(index, item) {
-            results += '<div class="col hyperlink farmland" id="'+index+'"><div class="card h-100 border-0"><img src="images/'+index+'.png" class="card-img-top"><div class="card-body"><h5 class="card-title"><i class="bi bi-square-fill me-2"></i>'+farmlands[index]['name']+'</h5><p class="card-text">蒐集物種數: '+item+'種</p></div></div></div>';
+            results += '<div class="col hyperlink farmland py-2" id="'+index+'"><div class="row"><div class="col-3 col-sm-12"><img src="images/'+index+'.png" class="img-fluid"></div><div class="col-9 col-sm-12 card h-100 border-0"><div class="card-body"><h5 class="card-title"><i class="bi bi-square-fill me-2"></i>'+farmlands[index]['name']+'</h5><p class="card-text">蒐集物種數: '+item+'種</p></div></div></div></div>';
         });
         $('#farmlands').html(results);
         $(".farmland").click(function(e){
