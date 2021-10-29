@@ -23,7 +23,7 @@
                 <img src="images/news.png" class="img my-2" alt="news">
                 <img id="image" src="" class="newobservation" alt="new observation">
                 <div class="container-fluid px-0 py-1">
-                <i class="bi bi-plus-lg"></i> <i class="bi bi-plus-lg"></i> <span id="user"></span> 的新蒐集, 物種:<span id="common_name"></span>, 地點:<span id="farmland"></span>, 時間:<span id="date"></span>, 收藏:<a id="source" href="" target="_blank"></a>
+                <i class="bi bi-plus-lg"></i> <i class="bi bi-plus-lg"></i> <span id="user"></span> 的新蒐集, 物種:<span id="common_name"></span>, 地點:<span id="farmland"></span>, 時間:<span id="date"></span>, 收藏:<a id="source" href="" target="_blank"></a><span id="photo_license"></span>
                 </div>
             </div>
             <div class="col-12 col-xl-6 mt-5">
@@ -73,18 +73,40 @@
         var latest = data[0];
         source = latest['source'];
         locId = latest['locId'];
+        sci_name = latest['sci_name'];
+        observationid = latest['observationid'];
         if(source=='iNaturalist'){
             farmland = Object.keys(farmlands).find(key => farmlands[key]['iNat'] === locId)
         }else if(source=='eBird'){
             farmland = Object.keys(farmlands).find(key => farmlands[key]['eBird'] === locId)
         }
-        $('#farmland').html(farmlands[farmland]['name']);
+        $('#farmland').html('<a href="farmland.html?farmland='+farmland+'">'+farmlands[farmland]['name']+'</a>');
         $('#user').html(latest['userDisplayName']);
-        $('#common_name').html(latest['common_name']);
+        $('#common_name').html('<a href="species.html?s='+sci_name+'">'+latest['common_name']+'</a>');
         $('#date').html(latest['obsDt']);
         $('#source').html(source);
         $('#source').attr('href', 'https://www.inaturalist.org/observations/'+latest['observationid']);
-        $('#image').attr('src', latest['photourl'].replace('medium', 'large'));
+        if(source=='iNaturalist'){
+            $('#image').attr('src', latest['photourl'].replace('medium', 'large'));
+        }else{
+            var inaturl = 'https://api.inaturalist.org/v1/observations?photos=true&photo_licensed=true&taxon_name='+sci_name+'&place_id=7888&quality_grade=research&locale=zh-TW&preferred_place_id=7887&page=1&per_page=1&order=desc&order_by=created_at';
+            var checklisturl = 'https://ebird.org/checklist/'+observationid
+            $.getJSON(inaturl, function(datainat) {
+                if(datainat.results.length > 0){
+                    inat = datainat.results[0];
+                    var photourl = inat['observation_photos'][0]['photo']['url'].replace('square', 'medium');
+                    var inat_photo_license_code = inat['observation_photos'][0]['photo']['license_code']
+                    var inat_user = inat['user']['login']
+                    var observationid = inat['id']
+                    var photo_license = ', 攝影:<a href="https://www.inaturalist.org/observations/'+observationid+'" target="_blank">' + inat_user + ' ('+inat_photo_license_code+')</a>';
+                }else{
+                    var photourl = '';
+                    var photo_license = '';
+                }
+                $('#image').attr('src', photourl);
+                $('#photo_license').html(photo_license);
+            });
+        }
     });
 });
   </script>
