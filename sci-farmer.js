@@ -12,7 +12,7 @@ const farmlands = {
     "farmland02": {
         "name": "美濃龍肚友善田",
         "farmers": ["farmer02"],
-        "iNat": "b5c008d3-d251-401d-880b-38fa10aad05b",
+        "iNat": "7aea0685-c9f0-4f4d-bae2-527f748e3f7f",
         "eBird": "",
         "location": "高雄美濃",
         "type": "水稻田",
